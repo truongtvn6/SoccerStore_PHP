@@ -52,7 +52,7 @@ if (!$product) {
                         <img src="../images/img/shop.png" >
                     </a>
                     
-                    <?php if (isset($_SESSION['user_id'])):
+                    <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="user-info">
                             <span class="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                             <a href="../logout.php" class="logout-btn" title="ĐĂNG XUẤT">Đăng xuất</a>

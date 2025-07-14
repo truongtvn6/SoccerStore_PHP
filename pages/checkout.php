@@ -113,7 +113,7 @@ var cartItems = <?php echo json_encode($cartItems ?? []); ?>;
                     </ul>
                 </div>
                 <div class="more">
-                <?php if (isset($_SESSION['user_id'])):
+                <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="user-info">
                             <span class="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                             <a href="../logout.php" class="logout-btn" title="ĐĂNG XUẤT">Đăng xuất</a>
@@ -133,11 +133,11 @@ var cartItems = <?php echo json_encode($cartItems ?? []); ?>;
         <div class="main">
             
         
-        <?php if (isset($success_message)):
-    <div class="success-message"><?php echo htmlspecialchars($success_message); ?></div>
-<?php elseif (isset($error_message)):
-    <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
-<?php endif; ?>
+        <?php if (isset($success_message)): ?>
+            <div class="success-message"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php elseif (isset($error_message)): ?>
+            <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
+        <?php endif; ?>
 
         <form id="checkout-form" action="checkout.php" method="POST">
     <label for="name">Họ và tên:</label>
