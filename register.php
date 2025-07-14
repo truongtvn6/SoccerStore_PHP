@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'lib/users.php';
+require_once 'lib/db.php';
 
 $error = '';
 
@@ -11,13 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirm_password = $_POST['confirm_password'];
     $is_admin = isset($_POST['is_admin']) ? 1 : 0;
 
-    // Add email validation if needed
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Email không hợp lệ';
     } elseif ($password !== $confirm_password) {
         $error = 'Mật khẩu không khớp';
     } else {
-        $result = registerUser($username, $email, $password, $is_admin);
+        $result = registerUser($pdo, $username, $email, $password, $is_admin);
         if ($result === true) {
             header('Location: login.php?registered=1');
             exit();

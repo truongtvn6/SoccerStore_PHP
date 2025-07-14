@@ -1,8 +1,7 @@
 <?php
 require_once 'db.php';
 
-function getAllOrders() {
-    global $pdo;
+function getAllOrders($pdo) {
     $stmt = $pdo->prepare("
         SELECT *
         FROM orders
@@ -12,15 +11,13 @@ function getAllOrders() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getOrderById($id) {
-    global $pdo;
+function getOrderById($pdo, $id) {
     $stmt = $pdo->prepare("SELECT o.*, c.name, c.phone, c.email, c.address FROM orders o JOIN customer_info c ON o.id = c.order_id WHERE o.id = ?");
     $stmt->execute([$id]);
     return $stmt->fetch();
 }
 
-function getOrderItems($orderId) {
-    global $pdo;
+function getOrderItems($pdo, $orderId) {
     $stmt = $pdo->prepare("SELECT oi.*, p.name FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?");
     $stmt->execute([$orderId]);
     return $stmt->fetchAll();
@@ -60,13 +57,11 @@ function addOrderItem($pdo, $orderId, $productId, $quantity, $price) {
     return true;
 }
 
-function updateOrderStatus($orderId, $status) {
-    global $pdo;
+function updateOrderStatus($pdo, $orderId, $status) {
     $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?");
     return $stmt->execute([$status, $orderId]);
 }
-function getOrdersByUserId($userId) {
-    global $pdo;
+function getOrdersByUserId($pdo, $userId) {
     $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ?");
     $stmt->execute([$userId]);
     return $stmt->fetchAll();

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $user = getUserByUsername($username);
+    $user = getUserByUsername($pdo, $username);
 
     if ($user && verifyPassword($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user['is_admin']) {
             header('Location: admin/index.php');
         } else {
-            header('Location: home.php');
+            header('Location: pages/home.php');
         }
         exit();
     } else {
