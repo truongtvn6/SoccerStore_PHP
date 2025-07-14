@@ -1,16 +1,17 @@
 <?php
 require_once '../lib/orders.php';
-require_once '../lib/users.php'; // Include the file where isUserAdmin is defined
+require_once '../lib/users.php';
+require_once '../lib/db.php';
 session_start();
 
-if (!isset($_SESSION['user_id']) || !isUserAdmin($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) || !isUserAdmin($pdo, $_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit();
 }
 
 if (isset($_GET['id'])) {
     $orderId = $_GET['id'];
-    $result = updateOrderStatus($orderId, 'confirmed');
+    $result = updateOrderStatus($pdo, $orderId, 'confirmed');
     
     if ($result) {
         $_SESSION['success_message'] = "Đơn hàng đã được xác nhận thành công.";

@@ -3,11 +3,10 @@ include 'admin_header.php';
 require_once '../lib/db.php';
 require_once '../lib/products.php';
 
-// Add logic to fetch and update product here
 $product = null;
 if (isset($_GET['id'])) {
     $product_id = $_GET['id'];
-    $product = getProductById($product_id);
+    $product = getProductById($pdo, $product_id);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['product-type'];
     $image_url = $_POST['current-image'];
 
-    // Xử lý upload file mới (nếu có)
     if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
         $image_dir = $type === 'club' ? 'Club' : 'Nation';
         $target_dir = __DIR__ . "/../images/{$image_dir}/";
@@ -37,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (updateProduct($id, $name, $description, $price, $image_url, $type)) {
+    if (updateProduct($pdo, $id, $name, $description, $price, $image_url)) {
         echo "<script>alert('Cập nhật sản phẩm thành công'); window.location.href = 'manage_items.php';</script>";
     } else {
         echo "<script>alert('Cập nhật sản phẩm thất bại');</script>";

@@ -6,14 +6,12 @@
 require_once '../lib/db.php';
 require_once '../lib/products.php';
 
-// Thêm logic phân trang
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$itemsPerPage = 5; // Số sản phẩm trên mỗi trang
+$itemsPerPage = 5;
 $offset = ($page - 1) * $itemsPerPage;
 
-// Cập nhật hàm getAllProducts để hỗ trợ phân trang
-$products = getAllProducts($itemsPerPage, $offset);
-$totalProducts = getTotalProductCount(); // Thêm hàm này vào lib/products.php
+$products = getAllProducts($pdo, $itemsPerPage, $offset);
+$totalProducts = getTotalProductCount($pdo);
 $totalPages = ceil($totalProducts / $itemsPerPage);
 ?>
 <div class="admin-content-main">
@@ -28,7 +26,7 @@ $totalPages = ceil($totalProducts / $itemsPerPage);
                     <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
                     <th>Giá bán</th>
-                    <th>Ngày đăng</th> <!-- Đổi tên cột -->
+                    <th>Ngày đăng</th>
                     <th class="action-column">Tùy chỉnh</th>
                 </tr>
             </thead>
@@ -47,8 +45,8 @@ $totalPages = ceil($totalProducts / $itemsPerPage);
                     <td><?php echo htmlspecialchars($product['price']); ?></td>
                     <td><?php echo date('d-m-Y', strtotime($product['updated_at'] ?? $product['created_at'])); ?></td>
                     <td class="action-column">
-                        <a href="../admin/edit_item.php?id=<?php echo urlencode($product['id']); ?>" class="edit-btn">Sửa</a>
-                        <form method="POST" action="../admin/delete_item.php" style="display: inline;">
+                        <a href="edit_item.php?id=<?php echo urlencode($product['id']); ?>" class="edit-btn">Sửa</a>
+                        <form method="POST" action="delete_item.php" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['id']); ?>">
                             <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">Xóa</button>
                         </form>
@@ -57,10 +55,9 @@ $totalPages = ceil($totalProducts / $itemsPerPage);
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <!-- Thêm phân trang -->
         <div class="pagination">
             <?php
-            $range = 2; // Số trang hiển thị ở mỗi bên của trang hiện tại
+            $range = 2;
             ?>
             <?php if ($page > 1): ?>
                 <a href="?page=<?php echo $page - 1; ?>" class="pagination-btn">&laquo; Trước</a>

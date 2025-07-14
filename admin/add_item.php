@@ -3,7 +3,6 @@
         require_once '../lib/db.php';
         require_once '../lib/products.php';
 
-        // Xử lý thêm sản phẩm
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['product-name'];
             $price = $_POST['product-price'];
@@ -11,7 +10,6 @@
             $type = $_POST['product-type'];
             $image_url = '';
 
-            // Xử lý upload file
             if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
                 $image_dir = $type === 'club' ? 'Club' : 'Nation';
                 $target_dir = __DIR__ . "/../images/{$image_dir}/";
@@ -30,7 +28,7 @@
                 }
             }
 
-            if (addProduct($name, $description, $price, $image_url, $type)) {
+            if (addProduct($pdo, $name, $description, $price, $image_url, $type)) {
                 echo "<script>alert('Thêm sản phẩm thành công');</script>";
             } else {
                 echo "<script>alert('Thêm sản phẩm thất bại');</script>";

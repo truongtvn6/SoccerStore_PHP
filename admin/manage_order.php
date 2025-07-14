@@ -1,9 +1,10 @@
 <?php include 'admin_header.php'; ?>
 <?php require_once '../lib/orders.php'; ?>
+<?php require_once '../lib/db.php'; ?>
 <?php
-$orders = getAllOrders();
+$orders = getAllOrders($pdo);
 usort($orders, function($a, $b) {
-    return $a['id'] <=> $b['id']; // Sắp xếp theo ID
+    return $a['id'] <=> $b['id'];
 });
 ?>
 

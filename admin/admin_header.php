@@ -12,7 +12,7 @@
     <div class="row-grid">
         <div class="admin-sidebar">
             <div class="admin-sidebar-top">
-                <a href="../admin/index.php">
+                <a href="index.php">
                     <img src="../images/logo.jpg" alt="logo">
                 </a>
             </div>

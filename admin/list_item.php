@@ -1,11 +1,12 @@
 <?php
 include 'admin_header.php';
 require_once '../lib/orders.php';
+require_once '../lib/db.php';
 
 if (isset($_GET['id'])) {
     $orderId = $_GET['id'];
-    $order = getOrderById($orderId);
-    $orderItems = getOrderItems($orderId);
+    $order = getOrderById($pdo, $orderId);
+    $orderItems = getOrderItems($pdo, $orderId);
 }
 ?>
             <div class="admin-content-main">
@@ -35,9 +36,7 @@ if (isset($_GET['id'])) {
                                 <td><?php echo $item['id']; ?></td>
                                 <td>
                         <?php
-                        // Check if 'type' and 'image_url' exist in the $item array
-                        $image_dir = isset($item['type']) && $item['type'] === 'club' ? 'Club' : 'Nation';
-                        $image_path = !empty($item['image_url']) ? "../images/{$image_dir}/" . basename($item['image_url']) : 'default_image_path.jpg'; // Kiểm tra nếu 'image_url' không rỗng
+                        $image_path = !empty($item['image_url']) ? "../" . $item['image_url'] : 'default_image_path.jpg';
                         ?>
                         <img src="<?php echo htmlspecialchars($image_path); ?>" alt="<?php echo htmlspecialchars(isset($item['name']) ? $item['name'] : 'Product'); ?>" style="max-width: 100px; max-height: 100px;">
                     </td>

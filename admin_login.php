@@ -8,8 +8,8 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
-    $adminUser = getAdminUser();
-    if ($adminUser && $password === $adminUser['password']) {
+    $adminUser = getAdminUser($pdo);
+    if ($adminUser && verifyPassword($password, $adminUser['password'])) {
         $_SESSION['admin'] = true;
         $_SESSION['user_id'] = $adminUser['id'];
         header('Location: admin/index.php');
