@@ -1,0 +1,36 @@
+# Composer dependencies
+/vendor/
+
+# Node dependencies
+/node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+
+# Log files
+*.log
+
+# IDE and editor folders
+/.idea/
+/.vscode/
+
+# Cache
+/cache/
+
+# User-specific files
+*.sublime-workspace
+*.sublime-project
+
+# Backup files
+*~
+*.bak
+
+# SQL dumps
+*.sql 
+
+.cursor
