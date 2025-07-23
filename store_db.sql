@@ -25,19 +25,24 @@ DELIMITER $$
 --
 -- Thủ tục
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_product` (IN `p_name` VARCHAR(100), IN `p_description` TEXT, IN `p_price` DECIMAL(10,3), IN `p_image_url` VARCHAR(255), IN `p_type` ENUM('club','national'), IN `p_outstanding` TINYINT(1))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_product` (
+    IN `p_name` VARCHAR(100),
+    IN `p_description` TEXT,
+    IN `p_price` DECIMAL(10,3),
+    IN `p_image_url` VARCHAR(255),
+    IN `p_type` VARCHAR(20),
+    IN `p_outstanding` TINYINT(1)
+)
+BEGIN
     DECLARE max_id INT;
-    
-    -- Lấy ID lớn nhất hiện tại
+
     SELECT IFNULL(MAX(id), 0) INTO max_id FROM products;
-    
-    -- Đặt lại AUTO_INCREMENT
+
     SET @sql = CONCAT('ALTER TABLE products AUTO_INCREMENT = ', max_id + 1);
     PREPARE stmt FROM @sql;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
-    
-    -- Thêm sản phẩm mới
+
     INSERT INTO products (name, description, price, image_url, type, outstanding)
     VALUES (p_name, p_description, p_price, p_image_url, p_type, p_outstanding);
 END$$

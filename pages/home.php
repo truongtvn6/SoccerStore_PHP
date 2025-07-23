@@ -2,6 +2,7 @@
 require_once '../lib/products.php';
 require_once '../lib/db.php';
 include '../templates/header.php';
+include '../css/home.css';
 ?>
         </div>
 
